@@ -12,7 +12,7 @@ const app =  express();
 
 // middleware
 app.use(cors({
-    origin:"http://localhost:5173"
+    origin:"http://localhost:5173" || "http://localhost:5174"
 }))
 app.use(express.json()); // this middleware will parse JSON body
 app.use(rateLimiter);
