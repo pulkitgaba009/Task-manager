@@ -4,19 +4,21 @@ import { formatDate } from "../lib/utils.js"
 import api from '../lib/axios.js'
 import toast from 'react-hot-toast'
 
-const NoteCard = ({ note }) => {
+const NoteCard = ({ note, setNotes }) => {
 
-  const handleDelete = async(e,id) =>{
-    e.preventDefault(); // do not nevigate
+  const handleDelete = async (e, id) => {
+    e.preventDefault(); // do not navigate
 
-    if(!window.confirm("Are you sure to delete this note?")) return;
+    if (!window.confirm("Are you sure to delete this note?")) return;
 
     try {
       await api.delete(`notes/${id}`);
-      setNotes((prev)=>prev.filter((note)=>note._id !== id));
-      toast.success("Note deleated successfully");
+      setNotes(prev => prev.filter(n => n._id !== id));
+      toast.success("Note deleted successfully");
+      
     } catch (error) {
-      toast.error("Failed to deleate note");
+      console.error("Delete error:", error);
+      toast.error("Failed to delete note");
     }
   }
 
@@ -36,7 +38,7 @@ const NoteCard = ({ note }) => {
 
           <div className="flex items-center gap-1">
             <PenSquareIcon className="size-4" />
-            <button onClick={(e)=>handleDelete(e,note._id)} className="btn btn-ghost btn-xs text-error">
+            <button onClick={(e) => handleDelete(e, note._id)} className="btn btn-ghost btn-xs text-error">
               <Trash2Icon className="size-4" />
             </button>
           </div>
